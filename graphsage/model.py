@@ -25,7 +25,7 @@ class SupervisedGraphSage(nn.Module):
         self.xent = nn.CrossEntropyLoss()
 
         self.weight = nn.Parameter(torch.FloatTensor(num_classes, enc.embed_dim))
-        init.xavier_uniform(self.weight)
+        init.xavier_uniform_(self.weight)
 
     def forward(self, nodes):
         embeds = self.enc(nodes)
