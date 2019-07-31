@@ -69,7 +69,7 @@ def run_cora():
     feat_data, labels, adj_lists = load_cora()
     features = nn.Embedding(2708, 1433)
     features.weight = nn.Parameter(torch.FloatTensor(feat_data), requires_grad=False)
-   # features.cuda()
+    # features.cuda()
 
     agg1 = MeanAggregator(features, cuda=True)
     enc1 = Encoder(features, 1433, 128, adj_lists, agg1, gcn=True, cuda=False)
@@ -80,7 +80,7 @@ def run_cora():
     enc2.num_samples = 5
 
     graphsage = SupervisedGraphSage(7, enc2)
-#    graphsage.cuda()
+    # graphsage.cuda()
     rand_indices = np.random.permutation(num_nodes)
     test = rand_indices[:1000]
     val = rand_indices[1000:1500]
@@ -99,6 +99,9 @@ def run_cora():
         optimizer.step()
         end_time = time.time()
         times.append(end_time-start_time)
+        print(batch)
+        print(loss.data)
+        exit(0)
         print batch, loss.data[0]
 
     val_output = graphsage.forward(val) 
