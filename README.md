@@ -19,3 +19,7 @@ It assumes that CUDA is not being used, but modifying the run functions in `mode
 There is also a pubmed example (called via the `run_pubmed` function in model.py).
 
 ### My Note
+
+Now I updated the code so that it fits the latest pytorch.
+
+But note that it requires Python2.7, and the same environment as specified in GraphSAGE official code.
