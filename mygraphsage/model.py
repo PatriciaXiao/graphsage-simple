@@ -110,15 +110,14 @@ def run_cora():
     optimizer = torch.optim.SGD(filter(lambda p : p.requires_grad, graphsage.parameters()), lr=0.7)
     times = []
 
-    mini_batches = iter(minibatch_iter(num_nodes, mini_batch_size))
-    print(len(train))
+    num_train_nodes = len(train)
+
+    mini_batches = iter(minibatch_iter(num_train_nodes, mini_batch_size))
 
     # one epoch
     random.shuffle(train)
     for start, end in mini_batches:
         batch_nodes = train[start:end]
-        print(start, end)
-        continue
         
         start_time = time.time()
         optimizer.zero_grad()
