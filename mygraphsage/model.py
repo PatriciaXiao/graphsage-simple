@@ -112,26 +112,29 @@ def run_cora():
 
     num_train_nodes = len(train)
 
-    mini_batches = iter(minibatch_iter(num_train_nodes, mini_batch_size))
+    mini_batches_iterator = minibatch_iter(num_train_nodes, mini_batch_size)
 
-    # one epoch
-    random.shuffle(train)
-    for start, end in mini_batches:
-        batch_nodes = train[start:end]
-        
-        start_time = time.time()
-        optimizer.zero_grad()
-        loss = graphsage.loss(batch_nodes, 
-                Variable(torch.LongTensor(labels[np.array(batch_nodes)])))
-        loss.backward()
-        optimizer.step()
-        end_time = time.time()
-        times.append(end_time-start_time)
-        print(start, end, loss.data.item())
+    n_epochs = 3
+    for epoch in range(n_epochs):
+        # one epoch
+        random.shuffle(train)
+        mini_batches = iter(mini_batches_iterator)
+        for start, end in mini_batches:
+            batch_nodes = train[start:end]
+            
+            start_time = time.time()
+            optimizer.zero_grad()
+            loss = graphsage.loss(batch_nodes, 
+                    Variable(torch.LongTensor(labels[np.array(batch_nodes)])))
+            loss.backward()
+            optimizer.step()
+            end_time = time.time()
+            times.append(end_time-start_time)
+            print(start, end, loss.data.item())
 
-    val_output = graphsage.forward(val) 
-    print("Validation F1:", f1_score(labels[val], val_output.data.numpy().argmax(axis=1), average="micro"))
-    print("Average batch time:", np.mean(times) if len(times) else 0)
+        val_output = graphsage.forward(val) 
+        print("Validation F1:", f1_score(labels[val], val_output.data.numpy().argmax(axis=1), average="micro"))
+        print("Average batch time:", np.mean(times) if len(times) else 0)
 
 
 if __name__ == "__main__":
