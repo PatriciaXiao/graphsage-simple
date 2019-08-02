@@ -116,6 +116,8 @@ def run_cora():
     random.shuffle(train)
     for start, end in mini_batches:
         batch_nodes = train[start:end]
+        print(start, end)
+        continue
         
         start_time = time.time()
         optimizer.zero_grad()
@@ -129,7 +131,7 @@ def run_cora():
 
     val_output = graphsage.forward(val) 
     print("Validation F1:", f1_score(labels[val], val_output.data.numpy().argmax(axis=1), average="micro"))
-    print("Average batch time:", np.mean(times))
+    print("Average batch time:", np.mean(times) if len(times) else 0)
 
 
 if __name__ == "__main__":
