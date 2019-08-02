@@ -171,7 +171,8 @@ def run_pubmed():
         optimizer.step()
         end_time = time.time()
         times.append(end_time-start_time)
-        print batch, loss.data[0]
+        # print batch, loss.data[0]
+        print batch, loss.data.item()
 
     val_output = graphsage.forward(val) 
     print "Validation F1:", f1_score(labels[val], val_output.data.numpy().argmax(axis=1), average="micro")
