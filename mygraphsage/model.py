@@ -115,8 +115,6 @@ def run_cora():
     # one epoch
     random.shuffle(train)
     for start, end in mini_batches:
-        print(start, end)
-        continue
         batch_nodes = train[start:end]
         
         start_time = time.time()
