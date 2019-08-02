@@ -50,7 +50,7 @@ class minibatch_iter(object):
     def __next__(self):
         start = self.batch_cursor * self.mini_batch_size
         end = start + self.mini_batch_size
-        if end > self.num_nodes:
+        if start >= self.num_nodes:
             raise StopIteration
         self.batch_cursor += 1
         return start, end
