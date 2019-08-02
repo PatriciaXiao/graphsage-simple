@@ -117,6 +117,7 @@ def run_cora():
     n_epochs = 3
     for epoch in range(n_epochs):
         # one epoch
+        print("Start running epoch {0} / {1}".format(epoch + 1, n_epochs))
         random.shuffle(train)
         mini_batches = iter(mini_batches_iterator)
         for start, end in mini_batches:
@@ -130,7 +131,7 @@ def run_cora():
             optimizer.step()
             end_time = time.time()
             times.append(end_time-start_time)
-            print(start, end, loss.data.item())
+            print("\t", start, end, loss.data.item())
 
         val_output = graphsage.forward(val) 
         print("Validation F1:", f1_score(labels[val], val_output.data.numpy().argmax(axis=1), average="micro"))
