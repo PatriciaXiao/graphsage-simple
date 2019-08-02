@@ -12,7 +12,6 @@ from collections import defaultdict
 from encoders import Encoder
 from aggregators import MeanAggregator
 
-import functools
 
 """
 Simple supervised GraphSAGE model as well as examples running the model
@@ -48,7 +47,7 @@ def load_cora():
     with open("cora/cora.content") as fp:
         for i,line in enumerate(fp):
             info = line.strip().split()
-            feat_data[i,:] = list(functools.map(float, info[1:-1]))
+            feat_data[i,:] = list(map(float, info[1:-1]))
             node_map[info[0]] = i
             if not info[-1] in label_map:
                 label_map[info[-1]] = len(label_map)
