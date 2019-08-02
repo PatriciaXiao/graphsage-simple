@@ -27,3 +27,5 @@ But note that it requires Python2.7, and the same environment as specified in Gr
 `python -m XXX` actually loads `XXX` as a module, thus, we can do the same thing by `python mygraphsage/model.py`.
 
 And in fact I updated it to what is runnable on Python3.7, under mygraphsage.
+
+And it is also doable to run `model.py` after `cd mygraphsage`.
