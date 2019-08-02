@@ -38,13 +38,14 @@ class SupervisedGraphSage(nn.Module):
         return self.xent(scores, labels.squeeze())
 
 class minibatch_iter(object):
-    def __iter__(self, num_nodes, mini_batch_size):
+    def __init__(self, num_nodes, mini_batch_size):
         self.mini_batch_size = mini_batch_size
         self.num_nodes = num_nodes
         self.batch_cursor = 0
 
-    def reset(self):
+    def __iter__(self):
         self.batch_cursor = 0
+        return self
 
     def __next__(self):
         start = self.batch_cursor * self.mini_batch_size
