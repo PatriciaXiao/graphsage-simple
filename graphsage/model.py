@@ -67,6 +67,7 @@ def run_cora():
     random.seed(1)
     num_nodes = 2708
     feat_data, labels, adj_lists = load_cora()
+    print(feat_data.shape)
     features = nn.Embedding(2708, 1433)
     features.weight = nn.Parameter(torch.FloatTensor(feat_data), requires_grad=False)
     # features.cuda()
@@ -141,7 +142,7 @@ def run_pubmed():
     feat_data, labels, adj_lists = load_pubmed()
     features = nn.Embedding(19717, 500)
     features.weight = nn.Parameter(torch.FloatTensor(feat_data), requires_grad=False)
-   # features.cuda()
+    # features.cuda()
 
     agg1 = MeanAggregator(features, cuda=True)
     enc1 = Encoder(features, 500, 128, adj_lists, agg1, gcn=True, cuda=False)
@@ -152,7 +153,7 @@ def run_pubmed():
     enc2.num_samples = 25
 
     graphsage = SupervisedGraphSage(3, enc2)
-#    graphsage.cuda()
+    # graphsage.cuda()
     rand_indices = np.random.permutation(num_nodes)
     test = rand_indices[:1000]
     val = rand_indices[1000:1500]
@@ -179,5 +180,5 @@ def run_pubmed():
     print "Average batch time:", np.mean(times)
 
 if __name__ == "__main__":
-    # run_cora()
-    run_pubmed()
+    run_cora()
+    # run_pubmed()
