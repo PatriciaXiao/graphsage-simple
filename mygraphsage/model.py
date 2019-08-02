@@ -37,6 +37,23 @@ class SupervisedGraphSage(nn.Module):
         scores = self.forward(nodes)
         return self.xent(scores, labels.squeeze())
 
+class minibatch_iter(object):
+    def __iter__(self, num_nodes, mini_batch_size):
+        self.mini_batch_size = mini_batch_size
+        self.num_nodes = num_nodes
+        self.batch_cursor = 0
+
+    def reset(self):
+        self.batch_cursor = 0
+
+    def __next__(self):
+        start = self.batch_cursor * self.mini_batch_size
+        end = start + self.mini_batch_size
+        if end > self.num_nodes:
+            raise StopIteration
+        self.batch_cursor += 1
+        return start, end
+
 def load_cora():
     num_nodes = 2708
     num_feats = 1433
@@ -67,6 +84,7 @@ def run_cora():
     np.random.seed(1)
     random.seed(1)
     num_nodes = 2708
+    mini_batch_size = 256
     feat_data, labels, adj_lists = load_cora()
     print(feat_data.shape)
     features = nn.Embedding(2708, 1433)
@@ -90,9 +108,16 @@ def run_cora():
 
     optimizer = torch.optim.SGD(filter(lambda p : p.requires_grad, graphsage.parameters()), lr=0.7)
     times = []
-    for batch in range(100):
-        batch_nodes = train[:256]
-        random.shuffle(train)
+
+    mini_batches = iter(minibatch_iter(num_nodes, mini_batch_size))
+
+    # one epoch
+    random.shuffle(train)
+    for start, end in mini_batches:
+        print(start, end)
+        continue
+        batch_nodes = train[start:end]
+        
         start_time = time.time()
         optimizer.zero_grad()
         loss = graphsage.loss(batch_nodes, 
