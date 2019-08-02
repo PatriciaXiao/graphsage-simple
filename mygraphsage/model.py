@@ -117,6 +117,8 @@ def run_cora():
     for start, end in mini_batches:
         batch_nodes = train[start:end]
         print(start, end)
+        print(batch_nodes)
+        input()
         continue
         
         start_time = time.time()
