@@ -23,3 +23,5 @@ There is also a pubmed example (called via the `run_pubmed` function in model.py
 Now I updated the code so that it fits the latest pytorch.
 
 But note that it requires Python2.7, and the same environment as specified in GraphSAGE official code.
+
+`python -m XXX` actually loads `XXX` as a module, thus, we can do the same thing by `python mygraphsage/model.py`.
